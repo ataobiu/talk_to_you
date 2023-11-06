@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.server.model.Article">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="images" column="images" jdbcType="VARCHAR"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="isShow" column="is_show" jdbcType="BIT"/>
+            <result property="tags" column="tags" jdbcType="VARCHAR"/>
+            <result property="authorId" column="author_id" jdbcType="BIGINT"/>
+            <result property="deleted" column="deleted" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,images,
+        content,is_show,tags,
+        author_id,deleted
+    </sql>
+</mapper>
