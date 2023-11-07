@@ -8,10 +8,15 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AsideComponent: typeof import('./src/components/common/AsideComponent.vue')['default']
+    CardComponent: typeof import('./src/components/CardComponent.vue')['default']
+    ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCarousel: typeof import('element-plus/es')['ElCarousel']
+    ElCarouselItem: typeof import('element-plus/es')['ElCarouselItem']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElDivider: typeof import('element-plus/es')['ElDivider']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
@@ -25,6 +30,7 @@ declare module 'vue' {
     Register: typeof import('./src/components/Register.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SelectedComponent: typeof import('./src/components/SelectedComponent.vue')['default']
     ValidCode: typeof import('./src/components/common/ValidCode.vue')['default']
   }
 }

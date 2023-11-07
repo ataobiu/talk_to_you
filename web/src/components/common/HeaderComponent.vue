@@ -1,7 +1,7 @@
 <!-- 头部组件 -->
 <template>
     <div class="ctn">
-        <div class="left" @click="router.push('/')">
+        <div class="left" @click="router.replace('/')">
             <img :src="require('@/assets/交流.png')" alt="">
             <span>Talk To You</span>
         </div>

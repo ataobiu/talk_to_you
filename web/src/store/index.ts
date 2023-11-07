@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 const store = createStore({
   state: {
     loginDialogVisible: false,
+    cardDialogVisible: false,
     userInfo: null
   },
   getters: {
@@ -10,6 +11,9 @@ const store = createStore({
   mutations: {
     changeLoginDialogVisible(state) {
       state.loginDialogVisible = !state.loginDialogVisible
+    },
+    changeCardDialogVisible(state) {
+      state.cardDialogVisible = !state.cardDialogVisible
     },
     setUserInfo(state, value) {
       state.userInfo = value;
