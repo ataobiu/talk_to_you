@@ -11,4 +11,6 @@ import lombok.Data;
 public class DetailArticleResponse extends BaseArticleResponse {
     private String images;
     private String content;
+    private Long collects;
+    private Object comments;
 }

@@ -4,18 +4,17 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.example.server.exception.ServiceException;
 import com.example.server.mapper.ArticleMapper;
-import com.example.server.model.Article;
-import com.example.server.model.ArticleCollects;
-import com.example.server.model.ArticleLikes;
-import com.example.server.model.User;
-import com.example.server.response.BaseArticleResponse;
-import com.example.server.response.BaseUserResponse;
-import com.example.server.response.DetailArticleResponse;
+import com.example.server.model.*;
+import com.example.server.response.*;
 import com.example.server.service.ArticleService;
+import lombok.Data;
+import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -112,9 +111,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     }
 
     @Override
-    public Long getArticleLikesById(Long articleId) {
+    public Long getArticleLikesCountById(Long articleId) {
         return Db.lambdaQuery(ArticleLikes.class)
                 .eq(ArticleLikes::getArticleId, articleId)
+                .count();
+    }
+
+    @Override
+    public Long getArticleCollectsCountById(Long articleId) {
+        return Db.lambdaQuery(ArticleCollects.class)
+                .eq(ArticleCollects::getId, articleId)
                 .count();
     }
 
@@ -146,6 +152,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         }
     }
 
+    @Override
+    public List<ArticleComments> getArticleCommentsById(Long articleId) {
+        return Db.lambdaQuery(ArticleComments.class)
+                .eq(ArticleComments::getArticleId, articleId)
+                .list();
+    }
+
+    @Override
+    public Long getArticleCommentsCountById(Long articleId) {
+        return Db.lambdaQuery(ArticleComments.class)
+                .eq(ArticleComments::getArticleId, articleId)
+                .count();
+    }
+
     /**
      * 封装文章响应结构
      *
@@ -161,7 +181,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
             baseArticleResponse.setCover(article.getImages().split(",")[0]);
 
             // 根据文章id查询点赞量
-            Long likes = getArticleLikesById(article.getId());
+            Long likes = getArticleLikesCountById(article.getId());
             baseArticleResponse.setLikes(likes);
 
             // 根据文章作者id查询作者信息
@@ -174,20 +194,53 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         return responseList;
     }
 
+    /**
+     * 文章预览详细响应结构封装
+     *
+     * @param article
+     * @return
+     */
     public DetailArticleResponse getArticleResponse(Article article) {
 
         DetailArticleResponse detailArticleResponse = new DetailArticleResponse();
         BeanUtils.copyProperties(article, detailArticleResponse);
 
         // 根据文章id查询点赞量
-        Long likes = getArticleLikesById(article.getId());
-        detailArticleResponse.setLikes(likes);
+        Long likesCount = getArticleLikesCountById(article.getId());
+        detailArticleResponse.setLikes(likesCount);
+
+        // 评论数量
+        Long commentsCount = getArticleCommentsCountById(article.getId());
+        CommentsResponse commentsResponse = new CommentsResponse();
+        commentsResponse.setTotal(commentsCount);
+
+        // 收藏数量
+        Long collectsCount = getArticleCollectsCountById(article.getId());
+        detailArticleResponse.setCollects(collectsCount);
+
+        // 获取评论数组
+        List<ArticleComments> articleComments = getArticleCommentsById(article.getId());
+        List<BaseComments> baseCommentsList = new ArrayList<>();
+        for (ArticleComments comment : articleComments) {
+            BaseComments baseComments = new BaseComments();
+            baseComments.setId(comment.getUserId());
+            User user = getArticleAuthorInfoById(comment.getUserId());
+            baseComments.setName(user.getName());
+            baseComments.setAvatar(user.getAvatar());
+            baseComments.setComment(comment.getContent());
+            baseComments.setTime(comment.getCreateTime());
+            baseCommentsList.add(baseComments);
+        }
+        commentsResponse.setComments(baseCommentsList);
+        detailArticleResponse.setComments(commentsResponse);
 
         // 根据文章作者id查询作者信息
         User articleAuthorInfo = getArticleAuthorInfoById(article.getAuthorId());
         BaseUserResponse baseUserResponse = new BaseUserResponse();
         BeanUtils.copyProperties(articleAuthorInfo, baseUserResponse);
         detailArticleResponse.setUser(baseUserResponse);
+
+        // 根据文章id查询文章对应评论
 
         return detailArticleResponse;
     }

@@ -1,6 +1,7 @@
 package com.example.server.service;
 
 import com.example.server.model.Article;
+import com.example.server.model.ArticleComments;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.server.model.User;
 import com.example.server.response.BaseArticleResponse;
@@ -64,6 +65,7 @@ public interface ArticleService extends IService<Article> {
 
     /**
      * 获取作者信息
+     *
      * @param authorId
      * @return
      */
@@ -71,10 +73,27 @@ public interface ArticleService extends IService<Article> {
 
     /**
      * 获取文章点赞量
+     *
      * @param articleId
      * @return
      */
-    Long getArticleLikesById(Long articleId);
+    Long getArticleLikesCountById(Long articleId);
+
+    /**
+     * 获取文章收藏数量
+     *
+     * @param articleId
+     * @return
+     */
+    Long getArticleCollectsCountById(Long articleId);
+
+    /**
+     * 获取文章评论数量
+     *
+     * @param articleId
+     * @return
+     */
+    Long getArticleCommentsCountById(Long articleId);
 
     /**
      * 根据文章id获取文章详细内容
@@ -92,4 +111,14 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     DetailArticleResponse getDetailByArticleId(Long articleId, Long userId);
+
+    /**
+     * 根据文章id查询文章对应评论
+     *
+     * @param articleId
+     * @return
+     */
+    List<ArticleComments> getArticleCommentsById(Long articleId);
+
+
 }
