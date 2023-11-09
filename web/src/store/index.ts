@@ -4,7 +4,6 @@ const store = createStore({
   state: {
     loginDialogVisible: false,
     cardDialogVisible: false,
-    userInfo: null
   },
   getters: {
   },
@@ -14,22 +13,6 @@ const store = createStore({
     },
     changeCardDialogVisible(state) {
       state.cardDialogVisible = !state.cardDialogVisible
-    },
-    setUserInfo(state, value) {
-      state.userInfo = value;
-    },
-    watchLocalStorage(state) {
-      const storedValue = localStorage.getItem('userInfo');
-      if (storedValue !== null) {
-        state.userInfo = JSON.parse(storedValue);
-      }
-      // 监听 localStorage 变化
-      window.addEventListener('storage', (event) => {
-        if (event.key === 'userInfo' && event.newValue !== null) {
-          state.userInfo = JSON.parse(event.newValue);
-          console.log(state.userInfo);
-        }
-      });
     }
   },
   actions: {

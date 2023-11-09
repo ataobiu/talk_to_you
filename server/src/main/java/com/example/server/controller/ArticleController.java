@@ -3,6 +3,7 @@ package com.example.server.controller;
 import cn.hutool.core.io.FileUtil;
 import com.example.server.common.AuthAccess;
 import com.example.server.model.User;
+import com.example.server.request.AddArticleReq;
 import com.example.server.request.BaseArticleReq;
 import com.example.server.request.UpdateArticleReq;
 import com.example.server.response.BaseArticleResponse;
@@ -12,6 +13,7 @@ import com.example.server.common.Token;
 import com.example.server.model.Article;
 import com.example.server.service.impl.ArticleServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +28,7 @@ import java.util.List;
  **/
 @CrossOrigin
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/api/article")
 @RequiredArgsConstructor
 public class ArticleController {
     final ArticleServiceImpl articleService;
@@ -86,7 +88,7 @@ public class ArticleController {
      *
      * @return
      */
-    @GetMapping("/like")
+    @GetMapping("/likes")
     public Result getLikeArticle() {
         Long userId = Token.getUserId();
         List<BaseArticleResponse> likeArticleById = articleService.getLikeArticleById(userId);
@@ -98,7 +100,7 @@ public class ArticleController {
      *
      * @return
      */
-    @GetMapping("/collect")
+    @GetMapping("/collects")
     public Result getCollectdArticle() {
         Long userId = Token.getUserId();
         List<BaseArticleResponse> collectdArticleById = articleService.getCollectdArticleById(userId);
@@ -107,9 +109,11 @@ public class ArticleController {
 
     /**
      * 获取文章详细内容
+     *
      * @param id
      * @return
      */
+    @AuthAccess
     @GetMapping("detail/{id}")
     public Result getDetailByArticleId(@PathVariable Long id) {
         System.out.println(id);
@@ -131,39 +135,20 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/add")
-    public Result addArticle(@RequestBody BaseArticleReq articleReq, @RequestParam(value = "file", required = false) MultipartFile[] files) throws IOException {
-        User currentUser = Token.getCurrentUser();
-        // 遍历处理每个文件
-        for (MultipartFile file : files) {
-            String originalFilename = file.getOriginalFilename();
-            String type = FileUtil.extName(originalFilename);
-
-            // 获取文件的 MIME 类型
-            String contentType = file.getContentType();
-
-            if (contentType != null) {
-                if (contentType.startsWith("image/")) {
-                    System.out.println("图片");
-                    // 处理图片文件
-                    // 将图片保存到数据库或存储到服务器
-                } else if (contentType.startsWith("video/")) {
-                    System.out.println("视频");
-
-                    // 处理视频文件
-                    // 将视频保存到数据库或存储到服务器
-                } else {
-                    // 文件类型不支持，进行相应的处理
-                    return Result.error("Unsupported file type");
-                }
-            } else {
-                // 无法获取文件的 MIME 类型，进行相应的处理
-                return Result.error("Unable to determine file type");
-            }
-
-            // 处理文章详细内容
-            // articleReq 包含了文章的详细信息，你可以根据需要进行处理
-        }
-
+    public Result addArticle(@RequestBody AddArticleReq addArticleReq) {
+        val userId = Token.getUserId();
+        articleService.addArticle(userId, addArticleReq);
         return Result.success();
+    }
+
+    /**
+     * 搜索文章
+     * @param title
+     * @return
+     */
+    @PostMapping("/search/{title}")
+    public Result searchArticle(@PathVariable String title) {
+        val baseArticleResponses = articleService.searchArticle(title);
+        return Result.success(baseArticleResponses);
     }
 }

@@ -1,7 +1,8 @@
+import store from '@/store';
 import axios from 'axios'
 
 const request = axios.create({
-    baseURL: 'http://localhost:9090',
+    baseURL: 'http://localhost:9090/api',
     timeout: 5000
 })
 
@@ -37,6 +38,9 @@ request.interceptors.response.use(
         // 兼容服务端返回的字符串数据
         if (typeof res === 'string') {
             res = res ? JSON.parse(res) : res
+        }
+        if (res.code === 401) {
+            store.commit('changeLoginDialogVisible')
         }
         return res;
     },

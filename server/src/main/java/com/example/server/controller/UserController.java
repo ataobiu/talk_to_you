@@ -4,13 +4,14 @@ import cn.hutool.core.date.DateUtil;
 import com.example.server.common.AuthAccess;
 import com.example.server.request.BaseUserReq;
 import com.example.server.request.RegisterUserReq;
-import com.example.server.request.UpdateUserReqReq;
+import com.example.server.request.UpdateUserReq;
 import com.example.server.response.Result;
 import com.example.server.common.Token;
 import com.example.server.model.User;
 import com.example.server.response.UserResponse;
 import com.example.server.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ import java.util.HashMap;
  **/
 @CrossOrigin
 @RestController
-@RequestMapping("user")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -95,7 +96,7 @@ public class UserController {
      * 更新用户数据
      */
     @PostMapping("/update")
-    public Result update(@RequestBody UpdateUserReqReq updateUserReq) {
+    public Result update(@RequestBody UpdateUserReq updateUserReq) {
         Long id = Token.getUserId();
         // 如果前端传了新密码，则对密码进行加密
         if (updateUserReq.getPassword() != null) {
@@ -104,10 +105,6 @@ public class UserController {
         if (userService.updateUserById(id, updateUserReq)) {
             User dbUser = userService.getById(id);
             HashMap<Object, Object> maps = new HashMap<>();
-            // 如果修改了密码 则重新生产token
-//            if (updateUser.getPassword() != null){
-//                Token.genToken(String.valueOf(dbUser.getId()), dbUser.getPassword());
-//            }
             maps.put("token", Token.genToken(String.valueOf(dbUser.getId()), dbUser.getPassword()));
             UserResponse userResponse = new UserResponse();
             BeanUtils.copyProperties(dbUser, userResponse);

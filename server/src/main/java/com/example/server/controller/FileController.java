@@ -26,20 +26,20 @@ import java.util.List;
  **/
 @RestController
 @CrossOrigin
-@RequestMapping("/file")
+@RequestMapping("/api/file")
 @RequiredArgsConstructor
 public class FileController {
 
     final UserService userService;
-    //    private final String ROOT_PATH = System.getProperty("user.dir");
     private final String ROOT_PATH = System.getProperty("user.home") + File.separator + ".config" + File.separator + "talkToYou";
+    private final String targetPath = ROOT_PATH + File.separator + "files" + File.separator;
     @Value("${ip}")
     private String ip;
     @Value("${server.port}")
     private String port;
-    private String targetPath = ROOT_PATH + File.separator + "files" + File.separator;
 
     // 使用 hutool 定义上传文件接口,实现文件上传
+    @AuthAccess
     @PostMapping("/upload")
     public Result upload(@RequestParam(value = "file") MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
@@ -47,11 +47,14 @@ public class FileController {
             FileUtil.mkdir(ROOT_PATH);  // 如果当前文件的父级目录不存在，就创建
         }
         // 用uuid生成文件名
-        String fileName = IdUtil.fastSimpleUUID() + getFileExtension(originalFilename);
+        String fileName = null;
+        if (originalFilename != null) {
+            fileName = IdUtil.fastSimpleUUID() + getFileExtension(originalFilename);
+        }
         FileUtil.writeBytes(file.getBytes(), targetPath + fileName);
 
         // 返回文件下载地址
-        String url = ip + ":" + port + "/file/download/" + fileName;
+        String url = ip + ":" + port + "/api/file/download/" + fileName;
         return Result.success("上传成功", url);
     }
 
@@ -77,7 +80,7 @@ public class FileController {
         }
     }
 
-    // 注释
+    // 获取文件拓展名
     private String getFileExtension(String filename) {
         int dotIndex = filename.lastIndexOf(".");
         if (dotIndex > 0 && dotIndex < filename.length() - 1) {

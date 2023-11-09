@@ -17,9 +17,24 @@ const routes = [
         component: () => import('@/views/MessageView.vue')
       },
       {
+        // 发布
+        path: "/publish",
+        component: () => import('@/views/PublishView.vue')
+      },
+      {
         // 个人主页
         path: "/private",
         component: () => import('@/views/PrivateView.vue')
+      },
+      {
+        // 修改个人信息页
+        path: "/update",
+        component: () => import('@/views/UpdateUserView.vue')
+      },
+      {
+        // 搜索页
+        path: "/search",
+        component: () => import('@/views/SearchView.vue')
       }
     ]
   },

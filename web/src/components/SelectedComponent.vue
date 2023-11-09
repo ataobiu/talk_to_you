@@ -18,44 +18,56 @@
                                 <img :src="user.avatar">
                                 <span>{{ user.name }}</span>
                             </div>
-                            <el-button round type="danger">关注</el-button>
                         </div>
                         <div class="article">
-                            <h3>{{ article.title }}</h3>
+                            <div style="display: flex;justify-content: space-between;align-items: center;">
+                                <h3>{{ article.title }}</h3>
+                                <img @click="deleteArticle" style="height: 1rem; cursor: pointer;"
+                                    v-if="loginUser.id === user.id" :src="require('@/assets/删除.svg')" alt="">
+                            </div>
                             <p>{{ article.content }}</p>
                             <!-- <span>{{ article.time }}</span> -->
                             <span>2022-02-26</span>
                         </div>
                         <div class="comment" v-for="(item, index) in comments" :key="index">
-                            <img :src="item.avatar" alt="">
-                            <div class="commentRight">
-                                <h4>{{ item.name }}</h4>
-                                <p>{{ item.comment }}</p>
-                                <span>{{ item.time }}</span>
+                            <div class="leftComment">
+                                <img :src="item.avatar" alt="">
+                                <div class="commentRight">
+                                    <h4>{{ item.name }}</h4>
+                                    <p>{{ item.comment }}</p>
+                                    <span>{{ item.time }}</span>
+                                </div>
                             </div>
+                            <img v-if="loginUser.id === item.id" @click="deleteSelfComment(item.commentId)" class="delete"
+                                :src="require('@/assets/删除.svg')" alt="">
+                        </div>
+                        <div v-show="comments == ''"
+                            style="display: flex;flex-direction: column; justify-content: center;align-items: center; height: 5rem;">
+                            <p>还没有人评论</p>
+                            <el-button type="primary" round @click="goToComment">抢沙发</el-button>
                         </div>
                     </div>
                 </div>
                 <div class="rEnd">
                     <div class="buttons">
                         <div class="left">
-                            <img :src="require('@/assets/点赞.svg')" alt="">
+                            <img v-if="article.isLike === 0" @click="goToLike" :src="require('@/assets/未点赞.svg')" alt="">
+                            <img v-else @click="goToLike" :src="require('@/assets/点赞.svg')" alt="">
                             <span>{{ article.likes }}</span>
-                            <img :src="require('@/assets/收藏.svg')" alt="">
+                            <img v-if="article.isCollect === 0" @click="goToCollect" :src="require('@/assets/未收藏.svg')"
+                                alt="">
+                            <img v-else @click="goToCollect" :src="require('@/assets/收藏.svg')" alt="">
                             <span>{{ article.collects }}</span>
+                            <img :src="require('@/assets/评论.svg')" @click="goToComment" alt="">
+                            <span>{{ commentsCount }}</span>
                         </div>
                         <img :src="require('@/assets/分享.svg')" alt="">
-                        <span>{{ commentsCount }}</span>
-
                     </div>
-                    <div>
-                        <el-form>
-                            <el-input v-model="newComment" rows="1" autosize type="textarea" placeholder="说点什么...">
-                                <template #button>
-                                    <van-button size="small" type="primary" v-show="newComment != ''">发送</van-button>
-                                </template>
-                            </el-input>
-                        </el-form>
+                    <div style="display: flex;">
+                        <el-input ref="refInput" @keyup.enter="addNewComment" style="margin-right: 0.5rem;" maxlength="300"
+                            show-word-limit v-model.trim="newComment" :autosize="{ minRows: 1, maxRows: 4 }" type="textarea"
+                            placeholder="说点什么..." />
+                        <el-button type="primary" v-show="newComment != ''" @click="addNewComment">发送</el-button>
                     </div>
                 </div>
             </div>
@@ -64,10 +76,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineProps, onMounted, computed, reactive } from 'vue'
+import { ref, watch, defineProps, onMounted, defineEmits } from 'vue'
 import store from '@/store'
-import { getDetailByArticleId } from '@/request/article'
-import { da } from 'element-plus/es/locale';
+import { getDetailByArticleId, deleteArticleById } from '@/request/article'
+import { addComment, deleteComment } from '@/request/comment'
+import { likeArticle } from '@/request/like'
+import { collectArticle } from '@/request/collect'
 
 const cardDialogVisible = ref(store.state.cardDialogVisible)
 const changeCardDialogVisible = () => {
@@ -90,15 +104,65 @@ const user: any = ref({});
 const images = ref([]);
 const commentsCount = ref(0);
 const comments = ref();
-const newComment = ref()
-onMounted(async () => {
+const newComment = ref('')
+
+const addNewComment = async () => {
+    if (newComment.value) {
+        const commentData = {
+            id: article.value.id,
+            comment: newComment.value
+        }
+        const code: number = await addComment(commentData)
+        if (code === 200) {
+            getData()
+        }
+    }
+    refInput.value.clear();
+}
+const refInput = ref()
+const goToComment = () => {
+    refInput.value.focus()
+}
+
+// 删除评论
+const deleteSelfComment = async (id: number) => {
+    const code: number = await deleteComment(id)
+    if (code === 200) {
+        getData()
+    }
+}
+
+const loginUser = ref()
+const getData = async () => {
     const data = await getDetailByArticleId(props.articleId)
     article.value = data
     user.value = data.user
     images.value = data.images.split(',');
     commentsCount.value = data.comments.total
     comments.value = data.comments.comments
+}
 
+// 点赞文章
+const goToLike = async () => {
+    await likeArticle(article.value.id)
+    getData()
+}
+
+// 去收藏
+const goToCollect = async () => {
+    await collectArticle(article.value.id)
+    getData()
+}
+
+const emit = defineEmits(['reloadArticle'])
+const deleteArticle = async () => {
+    await deleteArticleById(article.value.id)
+    emit('reloadArticle')
+    store.commit("changeCardDialogVisible");
+}
+onMounted(() => {
+    loginUser.value = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo') as string) : {}
+    getData();
 })
 </script>
 
@@ -155,23 +219,33 @@ onMounted(async () => {
                     margin: 1rem 0;
                     align-items: start;
                     text-align: start;
+                    justify-content: space-between;
 
-                    img {
-                        height: 2rem;
-                        border-radius: 50%;
-                        cursor: pointer;
+                    .leftComment {
+                        display: flex;
+
+                        img {
+                            height: 2rem;
+                            border-radius: 50%;
+                            cursor: pointer;
+                        }
+
+                        .commentRight {
+                            margin-left: .5rem;
+
+                            h4 {
+                                margin: 0;
+                            }
+
+                            span {
+                                font-size: 0.6rem;
+                            }
+                        }
                     }
 
-                    .commentRight {
-                        margin-left: .5rem;
-
-                        h4 {
-                            margin: 0;
-                        }
-
-                        span {
-                            font-size: 0.6rem;
-                        }
+                    .delete {
+                        height: 0.8rem;
+                        cursor: pointer;
                     }
                 }
             }
@@ -191,7 +265,7 @@ onMounted(async () => {
                 padding: 0.5rem;
 
                 img {
-                    height: 1rem;
+                    height: 1.3rem;
                     margin-left: 0.5rem;
                     cursor: pointer;
                 }
@@ -201,8 +275,8 @@ onMounted(async () => {
                     align-items: center;
 
                     span {
-                        margin-left: 0.5rem;
-                        font-size: 1rem;
+                        margin-left: 0.2rem;
+                        font-size: 0.8rem;
                     }
                 }
             }

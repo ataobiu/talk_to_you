@@ -2,7 +2,7 @@ package com.example.server.service;
 
 import com.example.server.model.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.server.request.UpdateUserReqReq;
+import com.example.server.request.UpdateUserReq;
 
 /**
  * @author sherry
@@ -24,5 +24,5 @@ public interface UserService extends IService<User> {
      * @param updateUserReq 用户信息
      * @return 更新结果
      */
-    boolean updateUserById(Long id, UpdateUserReqReq updateUserReq);
+    boolean updateUserById(Long id, UpdateUserReq updateUserReq);
 }

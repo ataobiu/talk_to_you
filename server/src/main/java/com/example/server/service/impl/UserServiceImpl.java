@@ -1,10 +1,11 @@
 package com.example.server.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.server.model.User;
-import com.example.server.request.UpdateUserReqReq;
+import com.example.server.request.UpdateUserReq;
 import com.example.server.service.UserService;
 import com.example.server.mapper.UserMapper;
 import org.springframework.stereotype.Service;
@@ -39,16 +40,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public boolean updateUserById(Long id, UpdateUserReqReq updateUserReq) {
-        LambdaUpdateChainWrapper<User> set = lambdaUpdate()
-                .eq(User::getId, id)
-                .set(updateUserReq.getAccount() != null, User::getAccount, updateUserReq.getAccount())
-                .set(updateUserReq.getPassword() != null, User::getPassword, updateUserReq.getPassword())
+    public boolean updateUserById(Long id, UpdateUserReq updateUserReq) {
+        LambdaUpdateWrapper<User> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.set(updateUserReq.getPassword() != null, User::getPassword, updateUserReq.getPassword())
                 .set(updateUserReq.getEmail() != null, User::getEmail, updateUserReq.getEmail())
                 .set(updateUserReq.getName() != null, User::getName, updateUserReq.getName())
                 .set(updateUserReq.getAvatar() != null, User::getAvatar, updateUserReq.getAvatar())
-                .set(updateUserReq.getIntro() != null, User::getIntro, updateUserReq.getIntro());
-        return update(set);
+                .set(updateUserReq.getIntro() != null, User::getIntro, updateUserReq.getIntro())
+                .eq(User::getId, id);
+        return update(wrapper);
     }
 }
 

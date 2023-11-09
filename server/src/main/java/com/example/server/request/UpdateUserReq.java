@@ -8,9 +8,10 @@ import lombok.Data;
  * @DateTime: 2023/10/19 16:14
  **/
 @Data
-public class UpdateUserReqReq extends RegisterUserReq {
+public class UpdateUserReq extends RegisterUserReq {
     private String name;
     private String avatar;
     private String intro;
-
+    private String email;
+    private String password;
 }

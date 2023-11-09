@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/notice")
+@RequestMapping("/api/notice")
 public class NoticeController {
     final NoticeServiceImpl noticeService;
     @AuthAccess

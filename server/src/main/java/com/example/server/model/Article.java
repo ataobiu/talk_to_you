@@ -38,7 +38,7 @@ public class Article implements Serializable {
     /**
      * 是否展示
      */
-    private Boolean isShow;
+    private Integer isShow;
 
     /**
      * 文章标签

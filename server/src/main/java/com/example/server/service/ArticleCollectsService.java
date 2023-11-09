@@ -10,4 +10,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ArticleCollectsService extends IService<ArticleCollects> {
 
+    /**
+     * 取消或收藏
+     * @param id
+     * @param userId
+     * @return
+     */
+    boolean addOrDeleteCollect(String id, Long userId);
 }

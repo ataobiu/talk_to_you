@@ -5,13 +5,6 @@
             <img :src="require('@/assets/交流.png')" alt="">
             <span>Talk To You</span>
         </div>
-        <div class="center">
-            <el-input style="--el-input-border-radius:2rem" v-model="input" placeholder="请输入关键字">
-                <template #prefix>
-                    <img :src="require('@/assets/Search bar_selected.svg')" alt="">
-                </template>
-            </el-input>
-        </div>
         <div class="right">
             <img class="btn" @click="toggleDark()"
                 :src="isDark ? require('@/assets/sun3.svg') : require('@/assets/moon.svg')" alt="">
@@ -29,7 +22,7 @@
                         <span>{{ user.email }}</span>
                     </div>
                     <div>
-                        <el-button round style="width: 10rem">
+                        <el-button @click="router.push('/update')" round style="width: 10rem">
                             <img style="height: 1rem;" :src="require('@/assets/修改.svg')" alt="">
                             <span style="margin-left: 0.5rem;color: #0091eb; font-weight: 600;">修改信息</span>
                         </el-button>
@@ -45,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 
 // 切换暗黑模式
 import { useDark, useToggle } from '@vueuse/core'
@@ -60,8 +53,6 @@ const user = computed(() => {
     return userInfo ? JSON.parse(userInfo) : {}
 })
 
-// 绑定搜索框输入内容
-const input = ref('');
 // 退出登录
 const logout = () => {
     localStorage.removeItem('userInfo');
@@ -86,18 +77,6 @@ const logout = () => {
         display: flex;
         align-items: center;
         cursor: pointer;
-    }
-
-    .center {
-        .el-input {
-            overflow: hidden;
-            height: 2.5rem;
-            width: 40rem;
-        }
-
-        img {
-            height: 1.5rem;
-        }
     }
 
     .right {

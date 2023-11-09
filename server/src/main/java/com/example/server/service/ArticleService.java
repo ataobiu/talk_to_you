@@ -4,6 +4,8 @@ import com.example.server.model.Article;
 import com.example.server.model.ArticleComments;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.server.model.User;
+import com.example.server.request.AddArticleReq;
+import com.example.server.request.UpdateArticleReq;
 import com.example.server.response.BaseArticleResponse;
 import com.example.server.response.DetailArticleResponse;
 
@@ -120,5 +122,35 @@ public interface ArticleService extends IService<Article> {
      */
     List<ArticleComments> getArticleCommentsById(Long articleId);
 
+    /**
+     * 是否点赞
+     *
+     * @param userId
+     * @return
+     */
+    boolean isLike(Long articleId, Long userId);
 
+    /**
+     * 是否点赞
+     *
+     * @param articleId
+     * @param userId
+     * @return
+     */
+    boolean isCollect(Long articleId, Long userId);
+
+    /**
+     * 新增文章
+     * @param userId
+     * @param addArticleReq
+     * @return
+     */
+    boolean addArticle(Long userId, AddArticleReq addArticleReq);
+
+    /**
+     * 根据文章标题搜索文章
+     * @param title
+     * @return
+     */
+    List<BaseArticleResponse> searchArticle(String title);
 }

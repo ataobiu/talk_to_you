@@ -20,4 +20,5 @@ public class BaseComments {
     private String comment;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date time;
+    private Long commentId;
 }

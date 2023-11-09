@@ -17,42 +17,51 @@
         <div class="content">
             <div class="btn">
                 <el-affix :offset="100">
-                    <el-button round @click="getPrivateArticle">
+                    <el-button round @click="getPrivateArticle()">
                         <img :src="require('@/assets/个人.svg')" alt="">
                         <span>个人</span>
                     </el-button>
-                    <el-button round>
+                    <el-button round @click="getLikesArticle()">
                         <img :src="require('@/assets/点赞.svg')" alt="">
                         <span>点赞</span>
                     </el-button>
-                    <el-button round>
+                    <el-button round @click="getCollectArticle()">
                         <img :src="require('@/assets/收藏.svg')" alt="">
                         <span>收藏</span>
                     </el-button>
                 </el-affix>
             </div>
             <div class="buttom">
-                <CardComponent :articleList="articleList" />
+                <CardComponent @reloadArticle="getPrivateArticle" :articleList="articleList" />
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue';
-import { getArticles } from '@/request/article';
+import { ref, onMounted } from 'vue';
+import { getPrivateArticleByUserId, getLikesArticleByUserId, getCollectArticleByUserId } from '@/request/article';
 
 // 从localstore获取用户名
-const user = computed(() => {
-    const userInfo: string | undefined = localStorage.getItem('userInfo') as string;
-    return userInfo ? JSON.parse(userInfo) : {}
-})
+const user: any = ref({})
 const articleList: any = ref([])
+
 const getPrivateArticle = async () => {
-    // 获取文章
-    articleList.value = await getArticles()
+    articleList.value = await getPrivateArticleByUserId()
 }
+
+const getLikesArticle = async () => {
+    articleList.value = await getLikesArticleByUserId()
+
+}
+const getCollectArticle = async () => {
+    articleList.value = await getCollectArticleByUserId()
+
+}
+
 onMounted(() => {
+    const userInfo: string | undefined = localStorage.getItem('userInfo') as string;
+    user.value = userInfo ? JSON.parse(userInfo) : {}
     getPrivateArticle();
 });
 </script>

@@ -19,12 +19,12 @@
                 </div>
             </div>
         </div>
-        <SelectedComponent v-if="destroyDialog" :articleId="articleId" />
+        <SelectedComponent @reloadArticle="reloadArticle" v-if="destroyDialog" :articleId="articleId" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, computed, watch } from 'vue';
+import { ref, defineProps, computed, watch, defineEmits } from 'vue';
 import store from '@/store';
 
 const articleId = ref()
@@ -44,6 +44,10 @@ const props = defineProps({
 const articleList: any = computed(() => {
     return props.articleList
 });
+const emit = defineEmits(['reloadArticle'])
+const reloadArticle = () => {
+    emit('reloadArticle')
+}
 watch(
     () => store.state.cardDialogVisible,
     (newValue) => {

@@ -12,6 +12,6 @@ public class UpdateArticleReq extends BaseArticleReq{
     private Long id;
     private String title;
     private String content;
-    private boolean isShow;
+    private Integer isShow;
     private String tags;
 }

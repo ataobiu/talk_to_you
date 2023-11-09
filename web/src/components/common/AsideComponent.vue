@@ -5,11 +5,19 @@
             <img :src="require('@/assets/发现.svg')" alt="">
             <span>发现</span>
         </router-link>
-        <router-link :to="{ path: '/message' }" class="link" active-class="active">
-            <img :src="require('@/assets/消息.svg')" alt="">
-            <span>消息</span>
+        <router-link v-show="isLogin" :to="{ path: '/search' }" class="link" active-class="active">
+            <img :src="require('@/assets/Search bar_selected.svg')" alt="">
+            <span>搜索</span>
         </router-link>
-        <el-button @click="changeLoginDialogVisible" round>
+        <router-link :to="{ path: '/private' }" class="link" active-class="active">
+            <img :src="require('@/assets/我的.svg')" alt="">
+            <span>我的</span>
+        </router-link>
+        <router-link v-show="isLogin" :to="{ path: '/publish' }" class="link" active-class="active">
+            <img :src="require('@/assets/发布.svg')" alt="">
+            <span>发布</span>
+        </router-link>
+        <el-button v-show="!isLogin" @click="changeLoginDialogVisible" round>
             <span>登录</span>
         </el-button>
     </div>
@@ -21,7 +29,10 @@ import store from '@/store';
 const changeLoginDialogVisible = () => {
     store.commit('changeLoginDialogVisible');
 };
-
+import { computed } from 'vue';
+const isLogin = computed(() => {
+    return localStorage.getItem('token') ? true : false;
+})
 </script>
 
 <style lang="less" scoped>
