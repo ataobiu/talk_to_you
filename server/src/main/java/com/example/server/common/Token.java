@@ -31,7 +31,6 @@ public class Token {
     public static String genToken(String userId, String userPassword) {
         return JWT.create().withAudience(userId) // 将 user id 保存到 token 里面,作为载荷
                 .withExpiresAt(DateUtil.offsetHour(DateTime.now(), 10)) // 10小时后token过期
-                .withExpiresAt(DateUtil.offsetDay(DateTime.now(), 7))
                 .sign(Algorithm.HMAC256(userPassword)); // 以 password 作为 token 的密钥
     }
 
