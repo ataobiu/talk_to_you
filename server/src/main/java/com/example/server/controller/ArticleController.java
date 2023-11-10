@@ -1,24 +1,19 @@
 package com.example.server.controller;
 
-import cn.hutool.core.io.FileUtil;
 import com.example.server.common.AuthAccess;
-import com.example.server.model.User;
+import com.example.server.common.Token;
+import com.example.server.model.Article;
 import com.example.server.request.AddArticleReq;
-import com.example.server.request.BaseArticleReq;
 import com.example.server.request.UpdateArticleReq;
 import com.example.server.response.BaseArticleResponse;
 import com.example.server.response.DetailArticleResponse;
 import com.example.server.response.Result;
-import com.example.server.common.Token;
-import com.example.server.model.Article;
 import com.example.server.service.impl.ArticleServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -36,7 +31,6 @@ public class ArticleController {
     /**
      * 获取公开的内容
      *
-     * @return
      */
     @AuthAccess
     @GetMapping("/explore")
@@ -48,7 +42,6 @@ public class ArticleController {
     /**
      * 获取个人用户的内容
      *
-     * @return
      */
     @GetMapping("/private")
     public Result getPrivateArticle() {
@@ -86,7 +79,6 @@ public class ArticleController {
     /**
      * 获取用户点赞的文章
      *
-     * @return
      */
     @GetMapping("/likes")
     public Result getLikeArticle() {
@@ -98,7 +90,6 @@ public class ArticleController {
     /**
      * 获取用户收藏的文章
      *
-     * @return
      */
     @GetMapping("/collects")
     public Result getCollectdArticle() {
@@ -110,8 +101,6 @@ public class ArticleController {
     /**
      * 获取文章详细内容
      *
-     * @param id
-     * @return
      */
     @AuthAccess
     @GetMapping("detail/{id}")
@@ -132,7 +121,6 @@ public class ArticleController {
     /**
      * 新增文章
      *
-     * @return
      */
     @PostMapping("/add")
     public Result addArticle(@RequestBody AddArticleReq addArticleReq) {
@@ -143,8 +131,6 @@ public class ArticleController {
 
     /**
      * 搜索文章
-     * @param title
-     * @return
      */
     @PostMapping("/search/{title}")
     public Result searchArticle(@PathVariable String title) {

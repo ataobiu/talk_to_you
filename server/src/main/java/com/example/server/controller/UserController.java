@@ -2,16 +2,15 @@ package com.example.server.controller;
 
 import cn.hutool.core.date.DateUtil;
 import com.example.server.common.AuthAccess;
+import com.example.server.common.Token;
+import com.example.server.model.User;
 import com.example.server.request.BaseUserReq;
 import com.example.server.request.RegisterUserReq;
 import com.example.server.request.UpdateUserReq;
 import com.example.server.response.Result;
-import com.example.server.common.Token;
-import com.example.server.model.User;
 import com.example.server.response.UserResponse;
 import com.example.server.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;

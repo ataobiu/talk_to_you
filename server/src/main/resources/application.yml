@@ -7,8 +7,6 @@ spring:
 #logging:
 #  level: debug
 #    com.example.server
-#  pattern:
-#    dateformat: HH:mm:ss
 
 server:
   port: 9090
