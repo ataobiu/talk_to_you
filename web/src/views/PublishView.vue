@@ -44,6 +44,7 @@
 import { ref, reactive } from 'vue'
 import { ElNotification } from 'element-plus'
 import { addNewArticle } from '@/request/article'
+import router from '@/router';
 
 const newArticle = reactive({
     title: '',
@@ -58,7 +59,7 @@ const addArticle = reactive({
     isShow: 0,
 })
 
-const goToAddNewArticle = () => {
+const goToAddNewArticle = async () => {
     if (newArticle.title === '' || newArticle.content === '') {
         ElNotification({
             title: '警告',
@@ -81,7 +82,10 @@ const goToAddNewArticle = () => {
     }
     const images = newArticle.images.join(',');
     addArticle.images = images;
-    addNewArticle(addArticle)
+    const code = await addNewArticle(addArticle)
+    if (code === 200) {
+        router.push("/private")
+    }
 }
 
 const disabled = ref(false)
