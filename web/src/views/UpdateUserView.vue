@@ -64,6 +64,14 @@ const updatePassword: any = reactive({
     repassword: ''
 })
 const updateUser = async () => {
+    if (updateInfo.name == '' && updateInfo.intro == '' && updateInfo.email == '') {
+        ElNotification({
+            title: '错误',
+            message: '姓名,简介,邮箱至少有一项不为空',
+            type: 'warning',
+        })
+        return
+    }
     if (updateInfo.name == '') {
         updateInfo.name = user.value.name;
     }
