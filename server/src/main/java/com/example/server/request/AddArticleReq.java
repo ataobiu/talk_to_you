@@ -1,5 +1,6 @@
 package com.example.server.request;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
