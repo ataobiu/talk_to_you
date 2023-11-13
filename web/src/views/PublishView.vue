@@ -6,19 +6,9 @@
                 <img style="height: 2rem;" :src="require('@/assets/发布.svg')" alt="">
                 <h4>新发布：</h4>
             </div>
-            <el-upload :on-success="uploadSuccess" :limit="6" action="http://localhost:9090/api/file/upload"
-                list-type="picture-card" :on-remove="handleRemove">
+            <el-upload multiple v-model:file-list="fileList" :auto-upload="false" list-type="picture-card"
+                :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
                 <img style="height: 2rem;" :src="require('@/assets/新增.svg')" alt="">
-                <template #file="{ file }">
-                    <div>
-                        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-                        <span class="el-upload-list__item-actions">
-                            <span class="el-upload-list__item-delete" v-if="!disabled" @click="handleRemove(file)">
-                                <img style="height: 1.5rem;" :src="require('@/assets/删除.svg')" alt="">
-                            </span>
-                        </span>
-                    </div>
-                </template>
             </el-upload>
             <el-form label-position="top" label-width="100px" :model="newArticle">
                 <el-form-item label="标题">
@@ -30,13 +20,16 @@
                 </el-form-item>
                 <el-form-item label="是否展示">
                     <el-radio-group v-model="newArticle.isShow">
-                        <el-radio label="是" />
-                        <el-radio label="否" />
+                        <el-radio label="0">是</el-radio>
+                        <el-radio label="1">否</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-button type="primary" @click="goToAddNewArticle">发布</el-button>
             </el-form>
         </el-card>
+        <el-dialog style="border-radius: 1rem;" v-model="dialogVisible">
+            <img style="height: 50vh;" :src="dialogImageUrl" alt="Preview Image" />
+        </el-dialog>
     </div>
 </template>
 
@@ -45,58 +38,62 @@ import { ref, reactive } from 'vue'
 import { ElNotification } from 'element-plus'
 import { addNewArticle } from '@/request/article'
 import router from '@/router';
+import type { UploadProps, UploadUserFile } from 'element-plus'
 
+// 创建图片数组对象
+const fileList = ref<UploadUserFile[]>([])
 const newArticle = reactive({
     title: '',
-    images: [],
     content: '',
-    isShow: "是",
-})
-const addArticle = reactive({
-    title: '',
-    images: '',
-    content: '',
-    isShow: 0,
+    isShow: '',
 })
 
 const goToAddNewArticle = async () => {
-    if (newArticle.title === '' || newArticle.content === '') {
-        ElNotification({
-            title: '警告',
-            message: '标题或内容不能为空',
-            type: 'warning',
-        })
-        return
-    } else if (newArticle.images.length === 0) {
+    if (fileList.value.length === 0) {
         ElNotification({
             title: '警告',
             message: '至少上传一张图片',
             type: 'warning',
         })
         return
+    } else if (newArticle.title === '' || newArticle.content === '') {
+        ElNotification({
+            title: '警告',
+            message: '标题或内容不能为空',
+            type: 'warning',
+        })
+        return
     }
-    addArticle.title = newArticle.title;
-    addArticle.content = newArticle.content;
-    if (newArticle.isShow === '否') {
-        addArticle.isShow = 1
-    }
-    const images = newArticle.images.join(',');
-    addArticle.images = images;
-    const code = await addNewArticle(addArticle)
+    const formData = new FormData();
+    fileList.value.forEach((item: any) => {
+        formData.append('images', item.raw);
+    });
+    formData.append('title', newArticle.title);
+    formData.append('content', newArticle.content);
+    formData.append('isShow', newArticle.isShow);
+
+    const code = await addNewArticle(formData)
     if (code === 200) {
         router.push("/private")
     }
 }
 
-const disabled = ref(false)
 
-const handleRemove = (file: any) => {
-    const data = newArticle.images.filter(item => item !== file.response.data);
-    newArticle.images = data;
+// const handleRemove = (file: any) => {
+//     const data = newArticle.images.filter(item => item !== file.response.data);
+//     newArticle.images = data;
+// }
+
+const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+    console.log(uploadFile, uploadFiles)
+    console.log(fileList.value.length);
 }
-const uploadSuccess = (res: any) => {
-    console.log(res.data);
-    newArticle.images.push(res.data);
+// 展示图片
+const dialogImageUrl = ref('')
+const dialogVisible = ref(false)
+const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
+    dialogImageUrl.value = uploadFile.url!
+    dialogVisible.value = true
 }
 </script>
 

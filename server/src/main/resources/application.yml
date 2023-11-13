@@ -20,5 +20,5 @@ mybatis-plus:
       logic-delete-field: deleted                          # 设置全局逻辑删除
   type-aliases-package:  com.example.server.model
 
-#自定义属性
-ip: http://localhost
+#自定义属性 服务器后端地址
+server-address: http://localhost

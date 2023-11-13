@@ -84,9 +84,9 @@ export const deleteArticleById = async (id: number) => {
 }
 
 // 发布新文章
-export const addNewArticle = async (data: any) => {
+export const addNewArticle = async (formData: FormData) => {
     try {
-        const res: any = await request.post('/article/add', data)
+        const res: any = await request.post('/article/add', formData)
         if (res.code === 200) {
             ElNotification({
                 title: '成功',

@@ -26,8 +26,7 @@
                                     v-if="loginUser.id === user.id" :src="require('@/assets/删除.svg')" alt="">
                             </div>
                             <p>{{ article.content }}</p>
-                            <!-- <span>{{ article.time }}</span> -->
-                            <span>2022-02-26</span>
+                            <span>{{ article.time }}</span>
                         </div>
                         <div class="comment" v-for="(item, index) in comments" :key="index">
                             <div class="leftComment">

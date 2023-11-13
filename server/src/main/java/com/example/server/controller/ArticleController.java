@@ -1,6 +1,10 @@
 package com.example.server.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.example.server.common.AuthAccess;
+import com.example.server.common.FileSaveUtil;
 import com.example.server.common.Token;
 import com.example.server.model.Article;
 import com.example.server.request.AddArticleReq;
@@ -13,7 +17,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,10 +34,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleController {
     final ArticleServiceImpl articleService;
+    final FileSaveUtil fileSaveUtil;
 
     /**
      * 获取公开的内容
-     *
      */
     @AuthAccess
     @GetMapping("/explore")
@@ -41,7 +48,6 @@ public class ArticleController {
 
     /**
      * 获取个人用户的内容
-     *
      */
     @GetMapping("/private")
     public Result getPrivateArticle() {
@@ -78,7 +84,6 @@ public class ArticleController {
 
     /**
      * 获取用户点赞的文章
-     *
      */
     @GetMapping("/likes")
     public Result getLikeArticle() {
@@ -89,7 +94,6 @@ public class ArticleController {
 
     /**
      * 获取用户收藏的文章
-     *
      */
     @GetMapping("/collects")
     public Result getCollectdArticle() {
@@ -100,7 +104,6 @@ public class ArticleController {
 
     /**
      * 获取文章详细内容
-     *
      */
     @AuthAccess
     @GetMapping("detail/{id}")
@@ -120,13 +123,27 @@ public class ArticleController {
 
     /**
      * 新增文章
-     *
      */
     @PostMapping("/add")
-    public Result addArticle(@RequestBody AddArticleReq addArticleReq) {
+    public Result addArticle(@RequestParam("title") String title,
+                             @RequestParam("content") String content,
+                             @RequestParam("isShow") int isShow,
+                             @RequestParam("images") MultipartFile[] images) throws IOException {
         val userId = Token.getUserId();
-        articleService.addArticle(userId, addArticleReq);
-        return Result.success();
+        List<String> imageUrls = new ArrayList<>();
+        for (MultipartFile image : images) {
+            val url = fileSaveUtil.uploadImage(image);
+            imageUrls.add(url);
+        }
+        AddArticleReq addArticleReq = new AddArticleReq();
+        addArticleReq.setTitle(title);
+        addArticleReq.setContent(content);
+        addArticleReq.setImages(StrUtil.join(",", imageUrls));
+        addArticleReq.setIsShow(isShow);
+        if (articleService.addArticle(userId, addArticleReq)) {
+            return Result.success();
+        }
+        return Result.error();
     }
 
     /**

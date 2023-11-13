@@ -1,23 +1,19 @@
 package com.example.server.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.example.server.exception.ServiceException;
 import com.example.server.mapper.ArticleMapper;
 import com.example.server.model.*;
 import com.example.server.request.AddArticleReq;
-import com.example.server.request.UpdateArticleReq;
 import com.example.server.response.*;
 import com.example.server.service.ArticleService;
-import lombok.Data;
 import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -143,6 +139,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setContent(addArticleReq.getContent());
         article.setImages(addArticleReq.getImages());
         article.setIsShow(addArticleReq.getIsShow());
+        article.setCreateTime(new DateTime());
         return save(article);
     }
 
@@ -195,6 +192,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         DetailArticleResponse detailArticleResponse = new DetailArticleResponse();
         BeanUtils.copyProperties(article, detailArticleResponse);
+
+        // 绑定时间
+        detailArticleResponse.setTime(article.getCreateTime());
 
         // 根据文章id查询点赞量
         Long likesCount = getArticleLikesCountById(article.getId());
