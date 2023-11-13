@@ -32,7 +32,7 @@
                 </el-affix>
             </div>
             <div class="buttom">
-                <CardComponent @reloadArticle="getPrivateArticle" :articleList="articleList.reverse()" />
+                <CardComponent @reloadArticle="getPrivateArticle" :articleList="articleList" />
             </div>
         </div>
     </div>

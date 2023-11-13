@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-    <CardComponent :articleList="articleList.reverse()" />
+    <CardComponent :articleList="articleList" />
 </template>
 
 <script setup lang="ts">
