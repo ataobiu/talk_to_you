@@ -34,13 +34,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<BaseArticleResponse> getExploreArticle() {
-        List<Article> list = lambdaQuery().eq(Article::getIsShow, SHOW).list();
+        List<Article> list = lambdaQuery().eq(Article::getIsShow, SHOW).orderByDesc(Article::getCreateTime).list();
         return getArticleResponse(list);
     }
 
     @Override
     public List<BaseArticleResponse> getPrivateArticleById(Long userId) {
-        List<Article> list = lambdaQuery().eq(Article::getAuthorId, userId).list();
+        List<Article> list = lambdaQuery().eq(Article::getAuthorId, userId).orderByDesc(Article::getCreateTime).list();
         return getArticleResponse(list);
     }
 
@@ -63,7 +63,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             articleIdList.add(likes.getArticleId());
         }
         // 查询文章
-        List<Article> list = lambdaQuery().in(Article::getId, articleIdList).eq(Article::getIsShow, SHOW).list();
+        List<Article> list = lambdaQuery().in(Article::getId, articleIdList).eq(Article::getIsShow, SHOW).orderByDesc(Article::getCreateTime).list();
         return getArticleResponse(list);
     }
 
@@ -76,7 +76,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             articleIdList.add(collects.getArticleId());
         }
         // 查询文章
-        List<Article> list = lambdaQuery().in(Article::getId, articleIdList).eq(Article::getIsShow, SHOW).list();
+        List<Article> list = lambdaQuery().in(Article::getId, articleIdList).eq(Article::getIsShow, SHOW).orderByDesc(Article::getCreateTime).list();
         return getArticleResponse(list);
     }
 
@@ -120,7 +120,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<ArticleComments> getArticleCommentsById(Long articleId) {
-        return Db.lambdaQuery(ArticleComments.class).eq(ArticleComments::getArticleId, articleId).orderByDesc(ArticleComments::getCreateTime).list();
+        return Db.lambdaQuery(ArticleComments.class).eq(ArticleComments::getArticleId, articleId).orderByDesc(ArticleComments::getCreateTime).orderByDesc(ArticleComments::getCreateTime).list();
     }
 
     @Override
@@ -148,7 +148,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<BaseArticleResponse> searchArticle(String title) {
-        val list = lambdaQuery().like(Article::getTitle, title).list();
+        val list = lambdaQuery().like(Article::getTitle, title).orderByDesc(Article::getCreateTime).list();
         return getArticleResponse(list);
     }
 
