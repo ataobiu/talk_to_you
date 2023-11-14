@@ -21,7 +21,7 @@ export const addComment = async (data: any) => {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
@@ -43,6 +43,6 @@ export const deleteComment = async (id: number) => {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }

@@ -23,7 +23,7 @@
                             <div style="display: flex;justify-content: space-between;align-items: center;">
                                 <h3>{{ article.title }}</h3>
                                 <img @click="deleteArticle" style="height: 1rem; cursor: pointer;"
-                                    v-if="loginUser.id === user.id" :src="require('@/assets/删除.svg')" alt="">
+                                     v-if="loginUser.id === user.id" :src="require('@/assets/delete.svg')" alt="">
                             </div>
                             <p>{{ article.content }}</p>
                             <span>{{ article.time }}</span>
@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                             <img v-if="loginUser.id === item.id" @click="deleteSelfComment(item.commentId)" class="delete"
-                                :src="require('@/assets/删除.svg')" alt="">
+                                 :src="require('@/assets/delete.svg')" alt="">
                         </div>
                         <div v-show="comments == ''"
                             style="display: flex;flex-direction: column; justify-content: center;align-items: center; height: 5rem;">
@@ -50,17 +50,17 @@
                 <div class="rEnd">
                     <div class="buttons">
                         <div class="left">
-                            <img v-if="article.isLike === 0" @click="goToLike" :src="require('@/assets/未点赞.svg')" alt="">
-                            <img v-else @click="goToLike" :src="require('@/assets/点赞.svg')" alt="">
+                            <img v-if="article.isLike === 0" @click="goToLike" :src="require('@/assets/unLike.svg')" alt="">
+                            <img v-else @click="goToLike" :src="require('@/assets/like.svg')" alt="">
                             <span>{{ article.likes }}</span>
-                            <img v-if="article.isCollect === 0" @click="goToCollect" :src="require('@/assets/未收藏.svg')"
+                            <img v-if="article.isCollect === 0" @click="goToCollect" :src="require('@/assets/unCollect.svg')"
                                 alt="">
-                            <img v-else @click="goToCollect" :src="require('@/assets/收藏.svg')" alt="">
+                            <img v-else @click="goToCollect" :src="require('@/assets/Collect.svg')" alt="">
                             <span>{{ article.collects }}</span>
-                            <img :src="require('@/assets/评论.svg')" @click="goToComment" alt="">
+                            <img :src="require('@/assets/comment.svg')" @click="goToComment" alt="">
                             <span>{{ commentsCount }}</span>
                         </div>
-                        <img :src="require('@/assets/分享.svg')" alt="">
+                        <img :src="require('@/assets/Share.svg')" alt="">
                     </div>
                     <div style="display: flex;">
                         <el-input ref="refInput" @keyup.enter="addNewComment" style="margin-right: 0.5rem;" maxlength="300"

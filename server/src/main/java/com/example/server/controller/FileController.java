@@ -35,8 +35,7 @@ public class FileController {
     final FileSaveUtil fileSaveUtil;
 
     //定义文件上传的根路径
-    private final String ROOT_PATH = System.getProperty("user.home") + File.separator + ".config" + File.separator + "talkToYou" + File.separator + "files" + File.separator;
-
+    private final String ROOT_PATH = System.getProperty("user.home") + File.separator + "talkToYou" + File.separator + "files" + File.separator;
 
     // 使用 hutool 定义上传文件接口,实现文件上传
     @AuthAccess

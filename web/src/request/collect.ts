@@ -21,6 +21,6 @@ export const collectArticle = async (id: number) => {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }

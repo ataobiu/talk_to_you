@@ -2,19 +2,19 @@
 <template>
     <div class="ctn">
         <router-link :to="{ path: '/home' }" class="link" active-class="active">
-            <img :src="require('@/assets/发现.svg')" alt="">
+            <img :src="require('@/assets/discover.svg')" alt="">
             <span>发现</span>
         </router-link>
         <router-link v-show="isLogin" :to="{ path: '/search' }" class="link" active-class="active">
-            <img :src="require('@/assets/Search bar_selected.svg')" alt="">
+            <img :src="require('@/assets/Search.svg')" alt="">
             <span>搜索</span>
         </router-link>
         <router-link :to="{ path: '/private' }" class="link" active-class="active">
-            <img :src="require('@/assets/我的.svg')" alt="">
+            <img :src="require('@/assets/my.svg')" alt="">
             <span>我的</span>
         </router-link>
         <router-link v-show="isLogin" :to="{ path: '/publish' }" class="link" active-class="active">
-            <img :src="require('@/assets/发布.svg')" alt="">
+            <img :src="require('@/assets/publish.svg')" alt="">
             <span>发布</span>
         </router-link>
         <el-button v-show="!isLogin" @click="changeLoginDialogVisible" round>

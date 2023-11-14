@@ -16,7 +16,7 @@ import java.io.IOException;
  **/
 @Service
 public class FileSaveUtil {
-    private final String ROOT_PATH = System.getProperty("user.home") + File.separator + ".config" + File.separator + "talkToYou" + File.separator + "files" + File.separator;
+    private final String ROOT_PATH = System.getProperty("user.home") + File.separator + "talkToYou" + File.separator + "files" + File.separator;
     @Value("${server-address}")
     private String address;
     @Value("${server.port}")

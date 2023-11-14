@@ -34,7 +34,7 @@ const userSelect = (id: number) => {
     articleId.value = id
 }
 const userSelectAuthor = (id: number) => {
-    console.log(id)
+    // // console.log(id)
 }
 const props = defineProps({
     articleList: {

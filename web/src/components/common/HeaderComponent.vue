@@ -2,12 +2,12 @@
 <template>
     <div class="ctn">
         <div class="left" @click="router.replace('/')">
-            <img :src="require('@/assets/交流.png')" alt="">
+            <img :src="require('@/assets/communication.png')" alt="">
             <span>Talk To You</span>
         </div>
         <div class="right">
             <img class="btn" @click="toggleDark()"
-                :src="isDark ? require('@/assets/sun3.svg') : require('@/assets/moon.svg')" alt="">
+                 :src="isDark ? require('@/assets/sun.svg') : require('@/assets/moon.svg')" alt="">
             <span @click="router.push('/private')">{{ user.name }}</span>
             <el-popover popper-style="width: 20rem;overflow: hidden;background-color: #e5e7eb;border-radius: 1rem;"
                 :show-arrow="false" placement="bottom-start" trigger="click" :show-after="300"
@@ -23,13 +23,13 @@
                     </div>
                     <div>
                         <el-button @click="router.push('/update')" round style="width: 10rem">
-                            <img style="height: 1rem;" :src="require('@/assets/修改.svg')" alt="">
+                            <img style="height: 1rem;" :src="require('@/assets/edit.svg')" alt="">
                             <span style="margin-left: 0.5rem;color: #0091eb; font-weight: 600;">修改信息</span>
                         </el-button>
                     </div>
                 </div>
                 <div class="buttom-popper" @click="logout">
-                    <img style="height: 1rem;" :src="require('@/assets/退出.svg')" alt="">
+                    <img style="height: 1rem;" :src="require('@/assets/quit.svg')" alt="">
                     <span style="margin-left: 0.5rem;color: #0091eb;">退出登录</span>
                 </div>
             </el-popover>

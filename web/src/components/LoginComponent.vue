@@ -4,7 +4,7 @@
     align-center destroy-on-close draggable @close="changeLoginDialogVisible" :show-close="false">
     <div class="ctn">
       <div class="left">
-        <img :src="require('@/assets/交流.png')" alt="">
+        <img :src="require('@/assets/communication.png')" alt="">
         <div>
           <p>{{ text }}</p>
           <p>{{ text2 }}</p>
@@ -16,7 +16,7 @@
           <el-form-item>
             <el-input autofocus v-model="ruleForm.account" autocomplete="off">
               <template #prefix>
-                <img :src="require('@/assets/账号.svg')" alt="">
+                <img :src="require('@/assets/account.svg')" alt="">
                 <span>账号</span>
               </template>
             </el-input>
@@ -24,7 +24,7 @@
           <el-form-item>
             <el-input v-model="ruleForm.password" type="password" autocomplete="off">
               <template #prefix>
-                <img :src="require('@/assets/密码.svg')" alt="">
+                <img :src="require('@/assets/passwd.svg')" alt="">
                 <span>密码</span>
               </template>
             </el-input>
@@ -36,7 +36,7 @@
               </el-tooltip>
               <el-input placeholder="验证码" class="input" v-model="ruleForm.validCode">
                 <template #prefix>
-                  <img :src="require('@/assets/验证码.svg')" alt="">
+                  <img :src="require('@/assets/VerificationCode.svg')" alt="">
                 </template>
               </el-input>
             </div>
@@ -48,7 +48,7 @@
           <el-form-item prop="account">
             <el-input autofocus v-model="ruleForm.account" autocomplete="off">
               <template #prefix>
-                <img :src="require('@/assets/账号.svg')" alt="">
+                <img :src="require('@/assets/account.svg')" alt="">
                 <span>账号</span>
               </template>
             </el-input>
@@ -56,7 +56,7 @@
           <el-form-item prop="password">
             <el-input v-model="ruleForm.password" type="password" autocomplete="off">
               <template #prefix>
-                <img :src="require('@/assets/密码.svg')" alt="">
+                <img :src="require('@/assets/passwd.svg')" alt="">
                 <span>密码</span>
               </template>
             </el-input>
@@ -64,7 +64,7 @@
           <el-form-item prop="repassword">
             <el-input placeholder="再次确认密码" v-model="ruleForm.repassword" type="password" autocomplete="off">
               <template #prefix>
-                <img :src="require('@/assets/密码.svg')" alt="">
+                <img :src="require('@/assets/passwd.svg')" alt="">
                 <span>密码</span>
               </template>
             </el-input>
@@ -72,7 +72,7 @@
           <el-form-item prop="email">
             <el-input v-model="ruleForm.email" autocomplete="off">
               <template #prefix>
-                <img :src="require('@/assets/邮箱.svg')" alt="">
+                <img :src="require('@/assets/email.svg')" alt="">
                 <span>邮箱</span>
               </template>
             </el-input>
@@ -84,7 +84,7 @@
               </el-tooltip>
               <el-input placeholder="验证码" class="input" v-model="ruleForm.validCode">
                 <template #prefix>
-                  <img :src="require('@/assets/验证码.svg')" alt="">
+                  <img :src="require('@/assets/VerificationCode.svg')" alt="">
                 </template>
               </el-input>
             </div>

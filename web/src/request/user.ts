@@ -24,6 +24,6 @@ export const updateUserInfo = async (data: any) => {
         }
         return res.code;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }

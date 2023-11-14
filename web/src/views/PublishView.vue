@@ -3,12 +3,12 @@
     <div class="ctn">
         <el-card class="box-card">
             <div style="display: flex;">
-                <img style="height: 2rem;" :src="require('@/assets/发布.svg')" alt="">
+                <img style="height: 2rem;" :src="require('@/assets/publish.svg')" alt="">
                 <h4>新发布：</h4>
             </div>
             <el-upload multiple v-model:file-list="fileList" :auto-upload="false" list-type="picture-card"
                 :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                <img style="height: 2rem;" :src="require('@/assets/新增.svg')" alt="">
+                <img style="height: 2rem;" :src="require('@/assets/add.svg')" alt="">
             </el-upload>
             <el-form label-position="top" label-width="100px" :model="newArticle">
                 <el-form-item label="标题">
@@ -85,8 +85,8 @@ const goToAddNewArticle = async () => {
 // }
 
 const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-    console.log(uploadFile, uploadFiles)
-    console.log(fileList.value.length);
+    // console.log(uploadFile, uploadFiles)
+    // console.log(fileList.value.length);
 }
 // 展示图片
 const dialogImageUrl = ref('')

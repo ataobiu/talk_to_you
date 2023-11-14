@@ -26,7 +26,7 @@ export const goToLogin = async (data: any) => {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 };
 
@@ -52,7 +52,7 @@ export const goToRegister = (data: any) => {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 
 };

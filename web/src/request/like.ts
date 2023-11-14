@@ -21,6 +21,6 @@ export const likeArticle = async (id: number) => {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }

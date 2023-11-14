@@ -18,15 +18,15 @@
             <div class="btn">
                 <el-affix :offset="100">
                     <el-button round @click="getPrivateArticle()">
-                        <img :src="require('@/assets/个人.svg')" alt="">
+                        <img :src="require('@/assets/personal.svg')" alt="">
                         <span>个人</span>
                     </el-button>
                     <el-button round @click="getLikesArticle()">
-                        <img :src="require('@/assets/点赞.svg')" alt="">
+                        <img :src="require('@/assets/like.svg')" alt="">
                         <span>点赞</span>
                     </el-button>
                     <el-button round @click="getCollectArticle()">
-                        <img :src="require('@/assets/收藏.svg')" alt="">
+                        <img :src="require('@/assets/Collect.svg')" alt="">
                         <span>收藏</span>
                     </el-button>
                 </el-affix>

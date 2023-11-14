@@ -10,7 +10,7 @@ export const getArticles = async () => {
             return res.data
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
@@ -22,7 +22,7 @@ export const getDetailByArticleId = async (id: number) => {
             return res.data
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 // 获取个人发布的文章
@@ -33,7 +33,7 @@ export const getPrivateArticleByUserId = async () => {
             return res.data
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
@@ -45,7 +45,7 @@ export const getLikesArticleByUserId = async () => {
             return res.data
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
@@ -57,7 +57,7 @@ export const getCollectArticleByUserId = async () => {
             return res.data
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 // 删除个人发布的文章
@@ -79,7 +79,7 @@ export const deleteArticleById = async (id: number) => {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
@@ -102,7 +102,7 @@ export const addNewArticle = async (formData: FormData) => {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
@@ -125,6 +125,6 @@ export const searchArticleByTtle = async (title: any) => {
             })
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }

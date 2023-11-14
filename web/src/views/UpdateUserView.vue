@@ -6,7 +6,7 @@
                 <img :src="user.avatar" alt="">
                 <el-upload :on-success="uploadSuccess" style="margin-left: 2rem;" :show-file-list="false" drag
                     action="http://localhost:9090/api/file/upload" multiple>
-                    <img style="height: 2rem;" :src="require('@/assets/修改头像.svg')" alt="">
+                    <img style="height: 2rem;" :src="require('@/assets/editAvatar.svg')" alt="">
                     <template #tip>
                         <div class="el-upload__tip">
                             点击或拖动图片修改头像

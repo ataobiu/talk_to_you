@@ -1,0 +1,9 @@
+# build
+*/target
+*/dist
+
+# model
+*/node_modules
+
+# idea
+*/.idea
