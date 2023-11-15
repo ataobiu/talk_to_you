@@ -52,28 +52,36 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<BaseArticleResponse> getLikeArticleById(Long userId) {
-        // 查询用户点赞的文章id列表
-        List<ArticleLikes> likesList = Db.lambdaQuery(ArticleLikes.class).select(ArticleLikes::getArticleId).eq(ArticleLikes::getUserId, userId).list();
-        List articleIdList = new ArrayList<>();
-        for (ArticleLikes likes : likesList) {
-            articleIdList.add(likes.getArticleId());
+        try {
+            // 查询用户点赞的文章id列表
+            List<ArticleLikes> likesList = Db.lambdaQuery(ArticleLikes.class).select(ArticleLikes::getArticleId).eq(ArticleLikes::getUserId, userId).list();
+            List<Object> articleIdList = new ArrayList<>();
+            for (ArticleLikes likes : likesList) {
+                articleIdList.add(likes.getArticleId());
+            }
+            // 查询文章
+            List<Article> list = lambdaQuery().in(Article::getId, articleIdList).eq(Article::getIsShow, SHOW).orderByDesc(Article::getCreateTime).list();
+            return getArticleResponse(list);
+        } catch (Exception e) {
+            throw new ServiceException("{}");
         }
-        // 查询文章
-        List<Article> list = lambdaQuery().in(Article::getId, articleIdList).eq(Article::getIsShow, SHOW).orderByDesc(Article::getCreateTime).list();
-        return getArticleResponse(list);
     }
 
     @Override
     public List<BaseArticleResponse> getCollectdArticleById(Long userId) {
-        // 查询用户收藏的文章id列表
-        List<ArticleCollects> likesList = Db.lambdaQuery(ArticleCollects.class).select(ArticleCollects::getArticleId).eq(ArticleCollects::getUserId, userId).list();
-        List articleIdList = new ArrayList<>();
-        for (ArticleCollects collects : likesList) {
-            articleIdList.add(collects.getArticleId());
+        try {
+            // 查询用户收藏的文章id列表
+            List<ArticleCollects> likesList = Db.lambdaQuery(ArticleCollects.class).select(ArticleCollects::getArticleId).eq(ArticleCollects::getUserId, userId).list();
+            List<Object> articleIdList = new ArrayList<>();
+            for (ArticleCollects collects : likesList) {
+                articleIdList.add(collects.getArticleId());
+            }
+            // 查询文章
+            List<Article> list = lambdaQuery().in(Article::getId, articleIdList).eq(Article::getIsShow, SHOW).orderByDesc(Article::getCreateTime).list();
+            return getArticleResponse(list);
+        } catch (Exception e) {
+            throw new ServiceException("{}");
         }
-        // 查询文章
-        List<Article> list = lambdaQuery().in(Article::getId, articleIdList).eq(Article::getIsShow, SHOW).orderByDesc(Article::getCreateTime).list();
-        return getArticleResponse(list);
     }
 
     @Override

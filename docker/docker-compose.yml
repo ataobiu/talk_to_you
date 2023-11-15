@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  talktoyou_mysql:
+    image: talktoyou_mysql
+    container_name: talktoyou_mysql
+    volumes:
+      - ./talk_to_you/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: talk_to_you
+
+  talktoyou_frontend:
+    image: talktoyou_frontend
+    container_name: talktoyou_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - talktoyou_mysql
+
+  talktoyou_server:
+    image: talktoyou_server
+    container_name: talktoyou_server
+    volumes:
+      - ./talk_to_you/data:/root/talkToYou
+    ports:
+      - "9090:9090"
+    depends_on:
+      - talktoyou_mysql

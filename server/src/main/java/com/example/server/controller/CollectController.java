@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @CrossOrigin
 @RestController
-@RequestMapping("/api/collects")
+@RequestMapping("/api/collect")
 @RequiredArgsConstructor
 public class CollectController {
     final ArticleCollectsServiceImpl articleCollectsService;

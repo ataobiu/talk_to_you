@@ -13,7 +13,9 @@
 
  Date: 15/11/2023 01:17:47
 */
-
+CREATE DATABASE talk_to_you
+    DEFAULT CHARACTER SET = 'utf8mb4';
+USE talk_to_you;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

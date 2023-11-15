@@ -73,6 +73,7 @@
     </dependencies>
 
     <build>
+        <finalName>talk_to_you</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

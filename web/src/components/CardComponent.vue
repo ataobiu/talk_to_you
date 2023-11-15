@@ -75,6 +75,7 @@ watch(
                 border-radius: 0.7rem;
                 transition: filter 0.3s ease;
                 object-fit: contain;
+                background-color: #9999990f;
 
             }
 
@@ -101,11 +102,11 @@ watch(
                 cursor: pointer;
                 display: flex;
                 height: 2rem;
-                width: 2rem;
                 align-items: center;
 
                 img {
                     height: 1.5rem;
+                    width: 1.5rem;
                     border-radius: 50%;
                 }
 
