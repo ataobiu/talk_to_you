@@ -58,3 +58,19 @@ java -jar talk_to_you.jar
 ```shell
 pnpm run build
 ```
+
+![image-20231115185704888](./assets/image-20231115185704888.png)
+
+![image-20231115185726649](./assets/image-20231115185726649.png)
+
+![image-20231115185745799](./assets/image-20231115185745799.png)
+
+![image-20231115185756507](./assets/image-20231115185756507.png)
+
+![image-20231115185816951](./assets/image-20231115185816951.png)
+
+![image-20231115185840909](./assets/image-20231115185840909.png)
+
+![image-20231115185903508](./assets/image-20231115185903508.png)
+
+![image-20231115185919207](./assets/image-20231115185919207.png)
