@@ -6,7 +6,7 @@
             <div class="left">
                 <el-carousel height="70vh" autoplay>
                     <el-carousel-item v-for="(item, index) in images" :key="index">
-                        <img :src="item" style="width: 100%; object-fit: contain;" alt="">
+                        <img :src="item" style="width: 100%; height: 100%; object-fit: contain;" alt="">
                     </el-carousel-item>
                 </el-carousel>
             </div>
