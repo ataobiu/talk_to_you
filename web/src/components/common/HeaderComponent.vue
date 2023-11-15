@@ -7,16 +7,15 @@
         </div>
         <div class="right">
             <img class="btn" @click="toggleDark()"
-                 :src="isDark ? require('@/assets/sun.svg') : require('@/assets/moon.svg')" alt="">
+                :src="isDark ? require('@/assets/sun.svg') : require('@/assets/moon.svg')" alt="">
             <span @click="router.push('/private')">{{ user.name }}</span>
             <el-popover popper-style="width: 20rem;overflow: hidden;background-color: #e5e7eb;border-radius: 1rem;"
-                :show-arrow="false" placement="bottom-start" trigger="click" :show-after="300"
-                content="this is content, this is content, this is content">
+                :show-arrow="false" placement="bottom-start" trigger="click" :show-after="300">
                 <template #reference>
                     <img v-show="user.avatar" class="avatar" :src="user.avatar" alt="">
                 </template>
                 <div class="top-popper">
-                    <img style="" v-show="user.avatar" class="avatar-popper" :src="user.avatar" alt="">
+                    <img v-show="user.avatar" class="avatar-popper" :src="user.avatar" alt="">
                     <div style="display: flex;flex-direction: column;margin: 0.5rem auto;text-align: center;">
                         <span style="color: #0091eb;margin-top: 0.5rem;font-size: 1rem;">{{ user.name }}</span>
                         <span>{{ user.email }}</span>
@@ -50,7 +49,7 @@ const toggleDark = useToggle(isDark)
 // 从localstore获取用户名
 const user = computed(() => {
     const userInfo: string | undefined = localStorage.getItem('userInfo') as string;
-    return userInfo ? JSON.parse(userInfo) : {}
+    return userInfo ? JSON.parse(userInfo) : {};
 })
 
 // 退出登录
@@ -89,6 +88,7 @@ const logout = () => {
         .btn {
             border-radius: 50%;
             height: 1.5rem;
+            width: 1.5rem;
         }
 
         .btn:hover {

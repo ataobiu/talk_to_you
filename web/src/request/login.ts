@@ -31,10 +31,10 @@ export const goToLogin = async (data: any) => {
 };
 
 // 注册
-export const goToRegister = (data: any) => {
+export const goToRegister = async (data: any) => {
     try {
-        const res: any = request.post('/user/register', data);
-        if (res.code == 200) {
+        const res: any = await request.post('/user/register', data);
+        if (res.code === 200) {
             ElNotification({
                 title: '注册成功',
                 message: '',

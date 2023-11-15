@@ -16,8 +16,8 @@ cd talk_to_you/docker/
  cp ../db/talk_to_you.sql .
  
 # 下载最新版本打包好的文件
-wget https://github.com/ataobiu/talk_to_you/releases/download/1.1/dist.zip
-wget https://github.com/ataobiu/talk_to_you/releases/download/1.1/talk_to_you.jar
+wget https://github.com/ataobiu/talk_to_you/releases/latest/download/dist.zip
+wget https://github.com/ataobiu/talk_to_you/releases/latest/download/talk_to_you.jar
 
 # 下载基础镜像
 docker pull mysql:8.1.0 && docker pull nginx:1.25.3 && docker pull openjdk:17
