@@ -76,6 +76,7 @@ onMounted(() => {
 
         img {
             height: 8rem;
+            width: 8rem;
             border-radius: 50%;
         }
 

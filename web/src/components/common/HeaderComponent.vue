@@ -71,6 +71,7 @@ const logout = () => {
     img {
         cursor: pointer;
         height: 3rem;
+        width: 3rem;
     }
 
     .left {

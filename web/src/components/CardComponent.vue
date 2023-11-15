@@ -71,8 +71,10 @@ watch(
 
             img {
                 height: 17rem;
+                width: 12rem;
                 border-radius: 0.7rem;
                 transition: filter 0.3s ease;
+                object-fit: contain;
 
             }
 
@@ -99,6 +101,7 @@ watch(
                 cursor: pointer;
                 display: flex;
                 height: 2rem;
+                width: 2rem;
                 align-items: center;
 
                 img {

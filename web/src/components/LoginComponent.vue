@@ -214,6 +214,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
     img {
       height: 1rem;
+      width: 1rem;
     }
 
     span {

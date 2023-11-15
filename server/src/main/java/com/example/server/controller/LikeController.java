@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @CrossOrigin
 @RestController
-@RequestMapping("/api/like")
+@RequestMapping("/api/likes")
 @RequiredArgsConstructor
 public class LikeController {
     final ArticleLikesServiceImpl articleLikesService;

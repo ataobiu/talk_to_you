@@ -13,6 +13,7 @@ import com.example.server.response.BaseArticleResponse;
 import com.example.server.response.DetailArticleResponse;
 import com.example.server.response.Result;
 import com.example.server.service.impl.ArticleServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.beans.BeanUtils;
@@ -125,14 +126,19 @@ public class ArticleController {
      * 新增文章
      */
     @PostMapping("/add")
-    public Result addArticle(@RequestParam("title") String title,
+    public Result addArticle(HttpServletRequest request,
+                             @RequestParam("title") String title,
                              @RequestParam("content") String content,
                              @RequestParam("isShow") int isShow,
                              @RequestParam("images") MultipartFile[] images) throws IOException {
         val userId = Token.getUserId();
+        String protocol = request.getScheme();
+        String host = request.getServerName();
+        int port = request.getServerPort();
+        String hostname = protocol + "://" + host + ":" + port;
         List<String> imageUrls = new ArrayList<>();
         for (MultipartFile image : images) {
-            val url = fileSaveUtil.uploadImage(image);
+            val url = fileSaveUtil.uploadImage(image, hostname);
             imageUrls.add(url);
         }
         AddArticleReq addArticleReq = new AddArticleReq();

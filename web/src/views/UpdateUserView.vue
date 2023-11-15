@@ -5,7 +5,7 @@
             <div style="display: flex;align-items: center;">
                 <img :src="user.avatar" alt="">
                 <el-upload :on-success="uploadSuccess" style="margin-left: 2rem;" :show-file-list="false" drag
-                    action="http://localhost:9090/api/file/upload" multiple>
+                    action="/api/file/upload" multiple>
                     <img style="height: 2rem;" :src="require('@/assets/editAvatar.svg')" alt="">
                     <template #tip>
                         <div class="el-upload__tip">
@@ -142,6 +142,7 @@ onMounted(() => {
 
         img {
             height: 5rem;
+            width: 5rem;
         }
 
         p {

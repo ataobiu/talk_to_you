@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/talk_to_you
     username: root
-    password: ..123
+    password: talk_to_you
 #logging:
 #  level: debug
 #    com.example.server
@@ -19,6 +19,3 @@ mybatis-plus:
       id-type: assign_id                                  # 设置全局主键自增规则
       logic-delete-field: deleted                          # 设置全局逻辑删除
   type-aliases-package:  com.example.server.model
-
-#自定义属性 服务器后端地址
-server-address: http://localhost

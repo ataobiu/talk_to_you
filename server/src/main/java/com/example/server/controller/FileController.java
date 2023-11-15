@@ -1,16 +1,15 @@
 package com.example.server.controller;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.server.common.AuthAccess;
 import com.example.server.common.FileSaveUtil;
 import com.example.server.response.Result;
 import com.example.server.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,8 +39,12 @@ public class FileController {
     // 使用 hutool 定义上传文件接口,实现文件上传
     @AuthAccess
     @PostMapping("/upload")
-    public Result upload(@RequestParam(value = "file") MultipartFile file) throws IOException {
-        val url = fileSaveUtil.uploadImage(file);
+    public Result upload(HttpServletRequest request, @RequestParam(value = "file") MultipartFile file) throws IOException {
+        String protocol = request.getScheme();
+        String host = request.getServerName();
+        int port = request.getServerPort();
+        String hostname = protocol + "://" + host + ":" + port;
+        val url = fileSaveUtil.uploadImage(file, hostname);
         return Result.success("上传成功", url);
     }
 

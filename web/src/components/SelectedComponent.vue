@@ -6,7 +6,7 @@
             <div class="left">
                 <el-carousel height="70vh" autoplay>
                     <el-carousel-item v-for="(item, index) in images" :key="index">
-                        <img :src="item" style="height: 70vh; object-fit: contain;" alt="">
+                        <img :src="item" style="width: 100%; object-fit: contain;" alt="">
                     </el-carousel-item>
                 </el-carousel>
             </div>
@@ -23,7 +23,7 @@
                             <div style="display: flex;justify-content: space-between;align-items: center;">
                                 <h3>{{ article.title }}</h3>
                                 <img @click="deleteArticle" style="height: 1rem; cursor: pointer;"
-                                     v-if="loginUser.id === user.id" :src="require('@/assets/delete.svg')" alt="">
+                                    v-if="loginUser.id === user.id" :src="require('@/assets/delete.svg')" alt="">
                             </div>
                             <p>{{ article.content }}</p>
                             <span>{{ article.time }}</span>
@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                             <img v-if="loginUser.id === item.id" @click="deleteSelfComment(item.commentId)" class="delete"
-                                 :src="require('@/assets/delete.svg')" alt="">
+                                :src="require('@/assets/delete.svg')" alt="">
                         </div>
                         <div v-show="comments == ''"
                             style="display: flex;flex-direction: column; justify-content: center;align-items: center; height: 5rem;">
@@ -53,8 +53,8 @@
                             <img v-if="article.isLike === 0" @click="goToLike" :src="require('@/assets/unLike.svg')" alt="">
                             <img v-else @click="goToLike" :src="require('@/assets/like.svg')" alt="">
                             <span>{{ article.likes }}</span>
-                            <img v-if="article.isCollect === 0" @click="goToCollect" :src="require('@/assets/unCollect.svg')"
-                                alt="">
+                            <img v-if="article.isCollect === 0" @click="goToCollect"
+                                :src="require('@/assets/unCollect.svg')" alt="">
                             <img v-else @click="goToCollect" :src="require('@/assets/Collect.svg')" alt="">
                             <span>{{ article.collects }}</span>
                             <img :src="require('@/assets/comment.svg')" @click="goToComment" alt="">
@@ -195,6 +195,7 @@ onMounted(() => {
 
                     img {
                         height: 3rem;
+                        width: 3rem;
                         border-radius: 50%;
                     }
 
@@ -225,6 +226,7 @@ onMounted(() => {
 
                         img {
                             height: 2rem;
+                            width: 2rem;
                             border-radius: 50%;
                             cursor: pointer;
                         }
@@ -265,6 +267,7 @@ onMounted(() => {
 
                 img {
                     height: 1.3rem;
+                    width: 1.3rem;
                     margin-left: 0.5rem;
                     cursor: pointer;
                 }
