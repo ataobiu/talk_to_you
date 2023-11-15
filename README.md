@@ -13,7 +13,7 @@ git clone https://github.com/ataobiu/talk_to_you.git
 cd talk_to_you/docker/
 
 # sql文件到该目录
- cp ../db/talk_to_you.sql .
+cp ../db/talk_to_you.sql .
  
 # 下载最新版本打包好的文件
 wget https://github.com/ataobiu/talk_to_you/releases/latest/download/dist.zip
@@ -58,6 +58,8 @@ java -jar talk_to_you.jar
 ```shell
 pnpm run build
 ```
+
+### *三，展示*
 
 ![image-20231115185704888](./assets/image-20231115185704888.png)
 
