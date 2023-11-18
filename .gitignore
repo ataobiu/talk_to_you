@@ -1,0 +1,10 @@
+# build
+*/target
+*/dist
+dist.zip
+talk_to_you.jar
+# model
+*/node_modules
+
+# idea
+*/.idea

@@ -1,0 +1,6 @@
+FROM mysql:8.1.0
+
+COPY talk_to_you.sql /docker-entrypoint-initdb.d/init.sql
+
+# 设置环境变量
+ENV MYSQL_ROOT_PASSWORD=talk_to_you
