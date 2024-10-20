@@ -56,6 +56,7 @@ java -jar talk_to_you.jar
 *2.构建*运行
 
 ```shell
+pnpm install
 pnpm run build
 ```
 
