@@ -7,17 +7,11 @@
 
 ```shell
 # 克隆到本地
-git clone https://github.com/ataobiu/talk_to_you.git
-
-# 进入项目docker目录
-cd talk_to_you/docker/
-
-# sql文件到该目录
-cp ../db/talk_to_you.sql .
+git clone https://github.com/ataobiu/talk_to_you.git --depth 1 && cd talk_to_you/docker && cp ../db/talk_to_you.sql .
  
 # 下载最新版本打包好的文件
-wget https://github.com/ataobiu/talk_to_you/releases/latest/download/dist.zip
-wget https://github.com/ataobiu/talk_to_you/releases/latest/download/talk_to_you.jar
+wget https://github.com/ataobiu/talk_to_you/releases/latest/download/web.zip
+wget https://github.com/ataobiu/talk_to_you/releases/latest/download/server.jar
 
 # 下载基础镜像
 docker pull mysql:8.1.0 && docker pull nginx:1.25.3 && docker pull openjdk:17
@@ -40,7 +34,7 @@ docker compose up -d
 *2.构建*运行
 
 ```shell
-mvn package -DskipTests=true
+cd server && mvn dependency:go-offline && mvn package -DskipTests=true
 ```
 
 *3.运行jar文件*
@@ -60,7 +54,7 @@ pnpm install
 pnpm run build
 ```
 
-### *三，展示*
+### *三，案例*
 
 ![image-20231115185704888](./assets/image-20231115185704888.png)
 

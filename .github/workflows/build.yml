@@ -1,0 +1,113 @@
+name: CI with pnpm
+
+on:
+  push:
+    # branches: [ "main" ]
+    tags: [ "v*" ]
+
+jobs:
+  build-web:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.2.1
+    
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v4.0.0
+      with:
+        version: 9.4.0
+        run_install: false
+        
+    - name: Install dependencies
+      run: cd web && pnpm install
+      
+    - name: Build project
+      run: cd web && pnpm build
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: web
+        path: web/dist
+        
+  build-server:
+      needs: build-web
+      runs-on: ubuntu-latest
+      permissions:
+        contents: read
+        packages: write
+      steps:
+      
+      - uses: actions/checkout@v4
+      
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          
+      - name: Build with Maven
+        run: cd server && mvn package -DskipTests=true
+        
+      - name: Copy Jar
+        run: mkdir staging && cp server/target/*.jar staging
+        
+      - uses: actions/upload-artifact@v4
+        with:
+          name: server
+          path: staging
+          
+  publish:
+    needs: [build-web,build-server]
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Download Maven Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: server
+        path: server-jar
+        
+    - name: Download PNPM Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: web
+        path: web-dist
+
+    - name: Extract version from tag
+      id: extract_version
+      run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.VERSION }}
+        release_name: Release ${{ env.VERSION }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Maven Artifact to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: server-jar/talk_to_you.jar
+        asset_name: server.jar
+        asset_content_type: application/java-archive
+        
+    - name: zip
+      run: |
+        zip -r web.zip web-dist
+        
+    - name: Upload PNPM Artifact to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./web.zip
+        asset_name: web.zip
+        asset_content_type: application/zip

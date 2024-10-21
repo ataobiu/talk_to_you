@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   talktoyou_mysql:
     image: talktoyou_mysql

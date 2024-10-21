@@ -167,6 +167,6 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', '$2a$10$FneCjf3N6wB2opEk3tbnjevWBNcvJWj5Qwbi4goUCHFMTnvAivru2', 'example@qq.com', 'admin', '', '没有简介', '2023-11-14 17:17:08', 1, b'0');
+INSERT INTO `user` VALUES (1, 'admin', '$2a$10$FneCjf3N6wB2opEk3tbnjevWBNcvJWj5Qwbi4goUCHFMTnvAivru2', 'example@qq.com', 'admin', '/default_avatar.svg', '没有简介', '2023-11-14 17:17:08', 1, b'0');
 
 SET FOREIGN_KEY_CHECKS = 1;
